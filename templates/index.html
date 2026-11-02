@@ -1,0 +1,169 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Diabetic Retinopathy Detector</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 30px 15px;
+            font-family: Arial, sans-serif;
+            background: #101426;
+            color: white;
+        }
+
+        .container {
+            max-width: 750px;
+            margin: 30px auto;
+            padding: 35px;
+            background: #202944;
+            border-radius: 18px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #91aaff;
+        }
+
+        .subtitle {
+            color: #bdc7e3;
+            line-height: 1.6;
+        }
+
+        input[type="file"] {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            margin: 25px 0;
+            background: #151d33;
+            color: white;
+            border: 1px solid #526dfe;
+            border-radius: 8px;
+        }
+
+        button, .dashboard-btn {
+            display: inline-block;
+            padding: 13px 25px;
+            background: #526dfe;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover, .dashboard-btn:hover {
+            background: #7188ff;
+        }
+
+        .result {
+            margin-top: 30px;
+            padding: 25px;
+            background: #151d33;
+            border-radius: 12px;
+        }
+
+        .result h2 {
+            color: #91aaff;
+        }
+
+        .uploaded-image {
+            max-width: 100%;
+            max-height: 350px;
+            margin-top: 20px;
+            border-radius: 12px;
+        }
+
+        .error {
+            color: #ff8585;
+            margin-top: 20px;
+        }
+
+        .note {
+            color: #aeb8d0;
+            font-size: 13px;
+            line-height: 1.6;
+            margin-top: 30px;
+        }
+
+        .dashboard-link {
+            margin-top: 25px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Diabetic Retinopathy Detector</h1>
+
+    <p class="subtitle">
+        Upload a retinal image to check the CNN model's prediction.
+    </p>
+
+    <form action="/" method="POST" enctype="multipart/form-data">
+
+        <input
+            type="file"
+            name="file"
+            accept=".png,.jpg,.jpeg"
+            required
+        >
+
+        <button type="submit">
+            Predict
+        </button>
+
+    </form>
+
+    {% if error %}
+        <p class="error">{{ error }}</p>
+    {% endif %}
+
+    {% if result %}
+        <div class="result">
+
+            <h2>Prediction Result</h2>
+
+            <h3>{{ result }}</h3>
+
+            <p>
+                Model confidence: {{ "%.2f"|format(confidence) }}%
+            </p>
+
+            {% if image_path %}
+                <img
+                    src="{{ image_path }}"
+                    class="uploaded-image"
+                    alt="Uploaded retinal image"
+                >
+            {% endif %}
+
+        </div>
+    {% endif %}
+
+    <div class="dashboard-link">
+        <a href="/dashboard" class="dashboard-btn">
+            View Model Dashboard
+        </a>
+    </div>
+
+    <p class="note">
+        Educational prototype only. This model is not a substitute
+        for professional eye examination or medical diagnosis.
+    </p>
+
+</div>
+
+</body>
+</html>
